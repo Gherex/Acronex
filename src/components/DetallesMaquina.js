@@ -1,101 +1,66 @@
 import React from 'react';
+import "../stylesheets/DetallesMaquina.css"
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../useFetch';
 
 const DetallesMaquina = () => {
+
   const { id } = useParams();
   const url = `https://wrk.acronex.com/api/challenge/machines/${id}`;
-  const { maquinaData, loading, error } = useFetch(url);
+  const { data: maquinaData, loading, error } = useFetch(url);
 
-  console.log("MaquinaData:", maquinaData);
-  console.log("Renderizando DetallesMaquina, MaquinaData:", maquinaData);
-  
   if (loading) {
     return <p style={{ fontSize: '1.5rem' }}>Loading...</p>;
   }
-
   if (error) {
     return <p>Error: {error}</p>;
   }
-
   if (!maquinaData) {
-    return <p>No data available</p>;
+    return <p>No existe ese ID de maquina</p>;
   }
 
-  const getColorForIndicador = (value) => {
-    const COLORES_INDICADORES = ['#008000', '#FFFF00', '#FFA500', '#FF0000', '#8B0000', '#8B0000'];
-    const PUNTOS_QUIEBRE_COLORES_INDICADORES = [0.0, 0.1, 0.2, 0.35, 0.5, 1.0];
-
-    const colorIndex = PUNTOS_QUIEBRE_COLORES_INDICADORES.findIndex((point) => value <= point);
-    return COLORES_INDICADORES[colorIndex];
-  };
-
-  const getNombreIndicador = (id) => {
-    return 'Nombre del Indicador';
-  };
-
-  const getValorIndicador = (value) => {
-    return value >= 0 ? `${(value * 100).toFixed(0)}%` : '-';
-  };
-
-  const renderGrupo = (grupoData) => {
-    if (!grupoData || grupoData.length === 0) {
-      return null;
-    }
-
-    console.log("GrupoData:", grupoData);
-
-    return (
-      <div key={grupoData[0]?.g}>
-        <h2>{grupoData[0]?.g}</h2>
-        <ul>
-          {grupoData
-            .filter((variable) => !variable?.h)
-            .map((variable) => (
-              <li key={variable?.n}>
-                <strong>{variable?.n}:</strong> {variable?.value != null ? variable?.value : '-'} {variable?.u}
-              </li>
-            ))}
-        </ul>
-      </div>
-    );
-  };
-
-  const renderIndicadores = () => {
-    if (!maquinaData?.last || !maquinaData.last[3]) {
-      return null;
-    }
-
-    console.log("Indicadores:", maquinaData.last[3]);
-
-    const indicadores = maquinaData.last[3];
-
-    return (
-      <div key="indicadores">
-        <h2>Indicadores</h2>
-        <ul>
-          {Object.entries(indicadores).map(([id, value]) => (
-            <li key={id} style={{ color: getColorForIndicador(value) }}>
-              <strong>{getNombreIndicador(id)}:</strong> {getValorIndicador(value)}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
+  const modificarFecha = (fechaApi) => {
+    const fecha = new Date(fechaApi);
+    // Obteniendo componentes de fecha y hora
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Meses van de 0 a 11
+    const anio = fecha.getFullYear();
+    const horas = fecha.getHours().toString().padStart(2, '0');
+    const minutos = fecha.getMinutes().toString().padStart(2, '0');
+    const segundos = fecha.getSeconds().toString().padStart(2, '0');
+    // Formateando la cadena
+    const fechaFormateada = `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
+    return fechaFormateada;
+  }
 
   return (
-    <div>
-      {error && <p>Error: {error}</p>}
-      {loading && <p style={{ fontSize: '1.5rem' }}>Loading...</p>}
-      <h1>Detalles de la Máquina {id}</h1>
-      {Object.values(maquinaData?.data_description?.groups || {}).map((grupo) =>
-        renderGrupo(maquinaData?.last?.[grupo])
-      )}
-      {renderIndicadores()}
+    <div className="contenedor-detalles-maquina">
+      <div className="bloque-superior">
+        <h1> {maquinaData.description} </h1>
+        <p> ({maquinaData.id}) </p>
+      </div>
+      <div className="bloque-izq">
+        <div className="indicadores">
+          <div className="indicador-item">Taponamiento <div className="indicador-porcentaje">{(maquinaData.last.it == null || undefined) ? "-" : maquinaData.last.it * 100} % </div></div>
+          <div className="indicador-item">Evaporación <div className="indicador-porcentaje">{(maquinaData.last.ie == null || undefined) ? "-" : maquinaData.last.ie * 100} % </div></div>
+          <div className="indicador-item">Pérdida p. viento <div className="indicador-porcentaje">{(maquinaData.last.id == null || undefined) ? "-" : maquinaData.last.id * 100} % </div></div>
+          <div className="indicador-item">Calidad <div className="indicador-porcentaje">{(maquinaData.last.ig == null || undefined) ? "-" : 100 - (maquinaData.last.ig * 100)} % </div></div>
+        </div>
+        <div className='empresa'>Empresa <div className="nombre-empresa">{maquinaData.company}</div></div>
+        <div className='clase'>Clase <div className="tipo-clase">{maquinaData.class}</div></div>
+        <div className='estado'> Estado 
+          <div className="contenedor-estado">
+            <div className={`circulo-estado ${maquinaData.working ? 'circulo-verde' : 'circulo-rojo'}`}></div>
+            <div className="valor-estado">{maquinaData.working ? "En movimiento" : "Detenida"} </div>
+          </div>
+        </div>
+        <div className='ult-actu'>Última actualización <div className="fecha-ult-actu">{modificarFecha(maquinaData.last_update)}</div></div>
+      </div>
+      <div className="bloque-der">
+        Aqui van 3 tablas
+      </div>
     </div>
   );
 };
-
 
 export default DetallesMaquina;

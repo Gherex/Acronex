@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box;
+}
+
+.contenedor-detalles-maquina {
+  background-color: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  width: 70vw;
+  justify-content: center;
+  margin: auto;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.bloque-superior {
+  margin: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e4e4e4;
+}
+  .bloque-superior h1, p {
+    font-size: 24px;
+    font-weight: 100;
+  }
+
+.bloque-izq {
+  margin: 5px;
+  flex: 1;
+  font-size: 14px;
+}
+  .indicadores {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 12px;
+    font-weight: bold;
+  }
+    .indicador-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: white;
+      border: 2px solid black;
+      width: 40%;
+      height: 60px;
+      margin: 0 5px 5px 0; 
+      text-align: center;
+    }
+    .indicador-porcentaje {
+      font-size: 18px;
+      padding: 4px;
+    }
+  
+    .empresa {
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+      padding: 10px 0;
+    }
+    .nombre-empresa {
+      font-weight: 100;
+      color: #4980cc;
+      text-transform: uppercase;
+      margin-top: 4px; /*para separarlo un poquito de 'Empresa'*/
+    }
+  .clase {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    padding: 10px 0;
+  }
+    .tipo-clase {
+      font-weight: 100;
+      margin-top: 4px;
+    }
+  .estado {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    padding: 10px 0;
+  }
+    .contenedor-estado {
+      display: flex;
+      align-items: center;
+      padding-right: 5px;
+    }
+      .circulo-estado {
+        width: 15px;
+        height: 15px;
+        margin-top: 4px;
+        border-radius: 50%;
+      }
+      .valor-estado {
+        font-weight: 100;
+        margin: 4px 0 0 4px;
+      }
+      .circulo-rojo {
+        background-color: #e13e5b;
+      }
+      .circulo-verde {
+        background-color: #278e06;
+      }
+  .ult-actu {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    padding: 10px 0;
+  }
+    .fecha-ult-actu {
+      font-weight: 100;
+      margin-top: 4px;
+    }
+
+.bloque-der {
+  margin: 5px;
+  flex: 1.5;
+}
