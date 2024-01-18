@@ -33,6 +33,23 @@ const DetallesMaquina = () => {
     return fechaFormateada;
   }
 
+  const COLORES_INDICADORES = ['#008000', '#FFFF00', '#FFA500', '#FF0000', '#8B0000', '#8B0000'];
+  function getColor(valor) {
+    if (valor < 0.1) {
+      return COLORES_INDICADORES[0];
+    } else if (valor >= 0.1 && valor < 0.2) {
+      return COLORES_INDICADORES[1];
+    } else if (valor >= 0.2 && valor < 0.35) {
+      return COLORES_INDICADORES[2];
+    } else if (valor >= 0.35 && valor < 0.5) {
+      return COLORES_INDICADORES[3];
+    } else if (valor >= 0.5 && valor < 1.0) {
+      return COLORES_INDICADORES[4];
+    } else {
+      return COLORES_INDICADORES[5];
+    }
+  }
+
   return (
     <div className="contenedor-detalles-maquina">
       <div className="bloque-superior">
@@ -41,10 +58,18 @@ const DetallesMaquina = () => {
       </div>
       <div className="bloque-izq">
         <div className="indicadores">
-          <div className="indicador-item">Taponamiento <div className="indicador-porcentaje">{(maquinaData.last.it == null || undefined) ? "-" : maquinaData.last.it * 100} % </div></div>
-          <div className="indicador-item">Evaporación <div className="indicador-porcentaje">{(maquinaData.last.ie == null || undefined) ? "-" : maquinaData.last.ie * 100} % </div></div>
-          <div className="indicador-item">Pérdida p. viento <div className="indicador-porcentaje">{(maquinaData.last.id == null || undefined) ? "-" : maquinaData.last.id * 100} % </div></div>
-          <div className="indicador-item">Calidad <div className="indicador-porcentaje">{(maquinaData.last.ig == null || undefined) ? "-" : 100 - (maquinaData.last.ig * 100)} % </div></div>
+          {/* {console.log("maquinaData.last.it: ")} */}
+          {/* {console.log(maquinaData.last.it)} */}
+          {/* {console.log("maquinaData.last.ie: ")} */}
+          {/* {console.log(maquinaData.last.ie)} */}
+          {/* {console.log("maquinaData.last.id: ")} */}
+          {/* {console.log(maquinaData.last.id)} */}
+          {/* {console.log("maquinaData.last.ig: ")} */}
+          {/* {console.log(maquinaData.last.ig)} */}
+          <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.it) }}>Taponamiento <div className="indicador-porcentaje">{(maquinaData.last.it == null || undefined) ? "-" : Math.round(maquinaData.last.it * 100)} % </div></div>
+          <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.ie) }}>Evaporación <div className="indicador-porcentaje">{(maquinaData.last.ie == null || undefined) ? "-" : Math.round(maquinaData.last.ie * 100)} % </div></div>
+          <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.id) }}>Pérdida p. viento <div className="indicador-porcentaje">{(maquinaData.last.id == null || undefined) ? "-" : Math.round(maquinaData.last.id * 100)} % </div></div>
+          <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.ig) }}>Calidad <div className="indicador-porcentaje">{(maquinaData.last.ig == null || undefined) ? "-" : Math.round(100 - (maquinaData.last.ig * 100))} % </div></div>
         </div>
         <div className='empresa'>Empresa <div className="nombre-empresa">{maquinaData.company}</div></div>
         <div className='clase'>Clase <div className="tipo-clase">{maquinaData.class}</div></div>
@@ -61,7 +86,7 @@ const DetallesMaquina = () => {
           <h2>General</h2>
           <div className="fila">
             <h3>Cosechand</h3>
-            <p> - </p> 
+            <p> - </p>
           </div>
           <div className="fila">
             <h3>Batería interna</h3>
@@ -80,7 +105,7 @@ const DetallesMaquina = () => {
           <h2>Clima</h2>
           <div className="fila">
             <h3>Temperatura</h3>
-            <p>{maquinaData.last[200]} °C </p> 
+            <p>{maquinaData.last[200]} °C </p>
           </div>
           <div className="fila">
             <h3>Humedad</h3>
@@ -99,7 +124,7 @@ const DetallesMaquina = () => {
           <h2>Operación</h2>
           <div className="fila">
             <h3>Velocidad</h3>
-            <p> {maquinaData.last[25]} km/h </p> 
+            <p> {maquinaData.last[25]} km/h </p>
           </div>
           <div className="fila">
             <h3>Presión</h3>

@@ -30,6 +30,7 @@
   }
   .bloque-superior p {
     color: #706f6f;
+    margin-right: 15px;
   }
 
 .bloque-izq {
@@ -37,6 +38,11 @@
   flex: 1;
   font-size: 14px;
 }
+
+.colores {
+  color: #008000, #FFFF00, #FFA500, #FF0000, #8B0000, #8B0000;
+}
+
   .indicadores {
     display: flex;
     flex-wrap: wrap;
@@ -47,14 +53,15 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      background-color: white;
-      border: 2px solid black;
+      color: white;
+      font-size: 10px;
       width: 40%;
       height: 60px;
       margin: 0 5px 5px 0; 
       text-align: center;
     }
     .indicador-porcentaje {
+      color: white;
       font-size: 18px;
       padding: 4px;
     }
@@ -64,6 +71,7 @@
       flex-direction: column;
       font-weight: bold;
       padding: 10px 0;
+      margin-top: 10px;
     }
     .nombre-empresa {
       font-weight: 100;
