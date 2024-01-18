@@ -39,10 +39,6 @@
   font-size: 14px;
 }
 
-.colores {
-  color: #008000, #FFFF00, #FFA500, #FF0000, #8B0000, #8B0000;
-}
-
   .indicadores {
     display: flex;
     flex-wrap: wrap;

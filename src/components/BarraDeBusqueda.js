@@ -9,16 +9,6 @@ const BarraDeBusqueda = () => {
   const navigate = useNavigate();
   const [textoBusqueda, setTextoBusqueda] = useState('');
 
-  // const handleBuscar = () => {
-  //   // Verifica si el texto de búsqueda coincide con un ID
-  //   const isId = /^\d+$/.test(textoBusqueda);
-  //   if (isId) {
-  //     navigate(`/machines/${textoBusqueda}`);
-  //   } else {
-  //     // Redirige a la página de lista de máquinas con el query de búsqueda
-  //     navigate(`/machines?search=${encodeURIComponent(textoBusqueda)}`);
-  //   }
-  // };
   const handleBuscar = () => {
     // Verifica si el texto de búsqueda es un número
     const isId = !isNaN(textoBusqueda);

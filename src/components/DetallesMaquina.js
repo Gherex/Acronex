@@ -10,10 +10,11 @@ const DetallesMaquina = () => {
   const { data: maquinaData, loading, error } = useFetch(url);
 
   if (loading) {
-    return <p style={{ fontSize: '1.5rem' }}>Loading...</p>;
+    return <p style={{ fontSize: '1.5rem', textAlign: 'center', padding: '30px' }}>Loading...</p>;
   }
   if (error) {
-    return <p>Error: {error}</p>;
+    console.error("No existe maquina con ese ID", error.message);
+    // return <p style={{ textAlign: 'center', padding: '30px' }}>No existe máquina con ese ID.</p>
   }
   if (!maquinaData) {
     return <p>No existe ese ID de maquina</p>;
@@ -58,14 +59,6 @@ const DetallesMaquina = () => {
       </div>
       <div className="bloque-izq">
         <div className="indicadores">
-          {/* {console.log("maquinaData.last.it: ")} */}
-          {/* {console.log(maquinaData.last.it)} */}
-          {/* {console.log("maquinaData.last.ie: ")} */}
-          {/* {console.log(maquinaData.last.ie)} */}
-          {/* {console.log("maquinaData.last.id: ")} */}
-          {/* {console.log(maquinaData.last.id)} */}
-          {/* {console.log("maquinaData.last.ig: ")} */}
-          {/* {console.log(maquinaData.last.ig)} */}
           <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.it) }}>Taponamiento <div className="indicador-porcentaje">{(maquinaData.last.it == null || undefined) ? "-" : Math.round(maquinaData.last.it * 100)} % </div></div>
           <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.ie) }}>Evaporación <div className="indicador-porcentaje">{(maquinaData.last.ie == null || undefined) ? "-" : Math.round(maquinaData.last.ie * 100)} % </div></div>
           <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.id) }}>Pérdida p. viento <div className="indicador-porcentaje">{(maquinaData.last.id == null || undefined) ? "-" : Math.round(maquinaData.last.id * 100)} % </div></div>
