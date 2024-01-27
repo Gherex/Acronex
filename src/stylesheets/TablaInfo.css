@@ -1,0 +1,33 @@
+.tabla {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  border: 2px solid #e4e4e4;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.tabla>h2 {
+  background-color: #e4e4e4;
+  margin-bottom: 10px;
+}
+
+.fila {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 20px;
+  text-align: right;
+}
+
+.fila h3 {
+  width: 50%;
+  font-weight: 100;
+}
+
+.fila>p {
+  margin: auto;
+  width: 50%;
+  text-align: start;
+  font-size: 11px;
+  margin-left: 15px;
+}

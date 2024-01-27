@@ -12,58 +12,66 @@
   margin: 40px 0;
 }
 
-  .item-maquina {
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    position: relative;
-    list-style: none;
-    width: 70vw;
-    color: #3d3c3c;
-    padding: 10px;
-    margin: 2px;
-    height: 80px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background-color: #ffffff;
-    cursor: pointer;
-  }
-    .item-maquina li {
-      padding: 10px;
-    }
-    
-    .id-maquina {
-      display: inline-block;
-      color: #8a8888;
-      width: 7vw;
-      min-width: 40px;
-      text-align: center;
-    }
+.item-maquina {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  list-style: none;
+  width: 70vw;
+  color: #3d3c3c;
+  padding: 10px;
+  margin: 2px;
+  height: 80px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
 
-    .descrip-maquina {
-      display: inline-block;
-    }
+.item-maquina li {
+  padding: 10px;
+}
 
-    .link-sin-estilos {
-      text-decoration: none;
-      color: inherit;
-    }
+.id-maquina {
+  display: inline-block;
+  color: #8a8888;
+  width: 7vw;
+  min-width: 40px;
+  text-align: center;
+}
 
-  .circulo {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    position: absolute;
-    right: 20px;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-  }
+.descrip-maquina {
+  display: inline-block;
+}
 
-  .verde {
-    background-color: #278e06;
-  }
+.link-sin-estilos {
+  text-decoration: none;
+  color: inherit;
+}
 
-  .rojo {
-    background-color: #e13e5b;
-  }
+.circulo {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  right: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.verde {
+  background-color: #278e06;
+}
+
+.rojo {
+  background-color: #e13e5b;
+}
+
+.item-maquina:hover {
+  box-shadow: inset 10px 0 20px -10px rgb(53, 53, 53),
+              inset -10px 0 10px -10px rgb(53, 53, 53),
+              inset 0 -10px 10px -10px rgb(53, 53, 53);
+  transition: 0.3s;
+} 

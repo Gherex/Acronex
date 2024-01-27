@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "../stylesheets/DetallesMaquina.css"
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../useFetch';
+import Indicadores from './Indicadores';
+import InformacionMaquina from './InformacionMaquina';
+import TablaInfo from './TablaInfo';
 
 const DetallesMaquina = () => {
 
@@ -14,124 +17,83 @@ const DetallesMaquina = () => {
   }
   if (error) {
     console.error("No existe maquina con ese ID", error.message);
-    // return <p style={{ textAlign: 'center', padding: '30px' }}>No existe máquina con ese ID.</p>
   }
   if (!maquinaData) {
-    return <p>No existe ese ID de maquina</p>;
+    return <p style={{ textAlign: 'center', padding: '30px' }}>No existe ese ID de maquina</p>;
   }
 
-  const modificarFecha = (fechaApi) => {
-    const fecha = new Date(fechaApi);
-    // Obteniendo componentes de fecha y hora
-    const dia = fecha.getDate().toString().padStart(2, '0');
-    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Meses van de 0 a 11
-    const anio = fecha.getFullYear();
-    const horas = fecha.getHours().toString().padStart(2, '0');
-    const minutos = fecha.getMinutes().toString().padStart(2, '0');
-    const segundos = fecha.getSeconds().toString().padStart(2, '0');
-    // Formateando la cadena
-    const fechaFormateada = `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
-    return fechaFormateada;
-  }
-
-  const COLORES_INDICADORES = ['#008000', '#FFFF00', '#FFA500', '#FF0000', '#8B0000', '#8B0000'];
-  function getColor(valor) {
-    if (valor < 0.1) {
-      return COLORES_INDICADORES[0];
-    } else if (valor >= 0.1 && valor < 0.2) {
-      return COLORES_INDICADORES[1];
-    } else if (valor >= 0.2 && valor < 0.35) {
-      return COLORES_INDICADORES[2];
-    } else if (valor >= 0.35 && valor < 0.5) {
-      return COLORES_INDICADORES[3];
-    } else if (valor >= 0.5 && valor < 1.0) {
-      return COLORES_INDICADORES[4];
-    } else {
-      return COLORES_INDICADORES[5];
+  function transformarObjecto(objetoPrincipal, objetoMapeado) {
+    const objetoTransformado = {};
+    for (const key in objetoPrincipal) {
+      const valor = objetoPrincipal[key];
+      const description = objetoMapeado[key];
+      if (description !== undefined) {
+        objetoTransformado[description] = valor;
+      }
     }
+    return objetoTransformado;
   }
+
+  function mapearObjeto(objeto) {
+    const objetoMapeado = {};
+    for (const key in objeto) {
+      if (!isNaN(Number(key))) {
+        let nombre = objeto[key].n;
+        objetoMapeado[key] = nombre;
+      }
+    }
+    return objetoMapeado;
+  }
+
+  const objetoMapeado = mapearObjeto(maquinaData.data_description.headers);
+  const objetoTransformado = transformarObjecto(maquinaData.last, objetoMapeado);
 
   return (
     <div className="contenedor-detalles-maquina">
+
       <div className="bloque-superior">
         <h1> {maquinaData.description} </h1>
         <p> {maquinaData.id} </p>
       </div>
+
       <div className="bloque-izq">
-        <div className="indicadores">
-          <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.it) }}>Taponamiento <div className="indicador-porcentaje">{(maquinaData.last.it == null || undefined) ? "-" : Math.round(maquinaData.last.it * 100)} % </div></div>
-          <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.ie) }}>Evaporación <div className="indicador-porcentaje">{(maquinaData.last.ie == null || undefined) ? "-" : Math.round(maquinaData.last.ie * 100)} % </div></div>
-          <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.id) }}>Pérdida p. viento <div className="indicador-porcentaje">{(maquinaData.last.id == null || undefined) ? "-" : Math.round(maquinaData.last.id * 100)} % </div></div>
-          <div className="indicador-item" style={{ backgroundColor: getColor(maquinaData.last.ig) }}>Calidad <div className="indicador-porcentaje">{(maquinaData.last.ig == null || undefined) ? "-" : Math.round(100 - (maquinaData.last.ig * 100))} % </div></div>
-        </div>
-        <div className='empresa'>Empresa <div className="nombre-empresa">{maquinaData.company}</div></div>
-        <div className='clase'>Clase <div className="tipo-clase">{maquinaData.class}</div></div>
-        <div className='estado'> Estado
-          <div className="contenedor-estado">
-            <div className={`circulo-estado ${maquinaData.working ? 'circulo-verde' : 'circulo-rojo'}`}></div>
-            <div className="valor-estado">{maquinaData.working ? "En movimiento" : "Detenida"} </div>
-          </div>
-        </div>
-        <div className='ult-actu'>Última actualización <div className="fecha-ult-actu">{modificarFecha(maquinaData.last_update)}</div></div>
+        <Indicadores
+          taponamiento={maquinaData.last.it}
+          evaporacion={maquinaData.last.ie}
+          perdidaPorViento={maquinaData.last.id}
+          calidad={maquinaData.last.ig}
+        />
+
+        <InformacionMaquina
+          empresa={maquinaData.company}
+          clase={maquinaData.class}
+          estado={maquinaData.working}
+          ultActu={maquinaData.last_update}
+        />
       </div>
+
       <div className="bloque-der">
-        <div className="tabla">
-          <h2>General</h2>
-          <div className="fila">
-            <h3>Cosechand</h3>
-            <p> - </p>
-          </div>
-          <div className="fila">
-            <h3>Batería interna</h3>
-            <p> {maquinaData.last[19]} V </p>
-          </div>
-          <div className="fila">
-            <h3>Batería vehículo</h3>
-            <p> {maquinaData.last[20]} V </p>
-          </div>
-          <div className="fila">
-            <h3>Uso Combustible</h3>
-            <p> {maquinaData.last[265]} l/hora </p>
-          </div>
-        </div>
-        <div className="tabla">
-          <h2>Clima</h2>
-          <div className="fila">
-            <h3>Temperatura</h3>
-            <p>{maquinaData.last[200]} °C </p>
-          </div>
-          <div className="fila">
-            <h3>Humedad</h3>
-            <p> {maquinaData.last[201]} % </p>
-          </div>
-          <div className="fila">
-            <h3>Dirección de viento</h3>
-            <p> SE({maquinaData.last[203]}°) </p>
-          </div>
-          <div className="fila">
-            <h3>Velocidad de viento</h3>
-            <p> {maquinaData.last[204]} km/h </p>
-          </div>
-        </div>
-        <div className="tabla">
-          <h2>Operación</h2>
-          <div className="fila">
-            <h3>Velocidad</h3>
-            <p> {maquinaData.last[25]} km/h </p>
-          </div>
-          <div className="fila">
-            <h3>Presión</h3>
-            <p> {maquinaData.last[202]} bar </p>
-          </div>
-          <div className="fila">
-            <h3>Producto / hectárea</h3>
-            <p> {maquinaData.last[281]} litros/Ha </p>
-          </div>
-          <div className="fila">
-            <h3>Ancho</h3>
-            <p> {maquinaData.last[393]} m </p>
-          </div>
-        </div>
+        <TablaInfo
+          nombre={"General"}
+          fila1={"Cosechando"} valorFila1={maquinaData.working ? "si" : "no"}
+          fila2={"Batería interna"} valorFila2={`${objetoTransformado['Batería Interna']} V`}
+          fila3={"Batería vehículo"} valorFila3={`${objetoTransformado['Batería Vehiculo']} V`}
+          fila4={"Uso Combustible"} valorFila4={`${objetoTransformado['Producto / min']} litros/min`}
+        />
+        <TablaInfo
+          nombre={"Clima"}
+          fila1={"Temperatura"} valorFila1={`${objetoTransformado['Temperatura']} °C`}
+          fila2={"Humedad"} valorFila2={`${objetoTransformado['Humedad']} %`}
+          fila3={"Dirección del viento"} valorFila3={`${objetoTransformado['Direccion Viento']} °`}
+          fila4={"Velocidad del viento"} valorFila4={`${objetoTransformado['Velocidad Viento']} km/h`}
+        />
+        <TablaInfo
+          nombre={"Operación"}
+          fila1={"Velocidad"} valorFila1={`${objetoTransformado['Velocidad']} Km/h`}
+          fila2={"Presión"} valorFila2={`${objetoTransformado['Presión']} bar`}
+          fila3={"Producto / hectárea"} valorFila3={`${objetoTransformado['Producto / hectarea']} litros/Ha`}
+          fila4={"Ancho"} valorFila4={`${objetoTransformado['Ancho']} m`}
+        />
       </div>
     </div>
   );

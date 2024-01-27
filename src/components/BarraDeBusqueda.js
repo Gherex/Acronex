@@ -11,8 +11,8 @@ const BarraDeBusqueda = () => {
 
   const handleBuscar = () => {
     // Verifica si el texto de búsqueda es un número
-    const isId = !isNaN(textoBusqueda);
-  
+    const isId = !isNaN(textoBusqueda) && textoBusqueda !== '0';
+
     if (isId) {
       navigate(`/machines/${textoBusqueda}`);
     } else {

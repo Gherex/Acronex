@@ -1,0 +1,72 @@
+.empresa {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  padding: 10px 0;
+  margin-top: 10px;
+}
+
+.nombre-empresa {
+  font-weight: 100;
+  color: #4980cc;
+  text-transform: uppercase;
+  margin-top: 4px;
+  /*para separarlo un poquito de 'Empresa'*/
+}
+
+.clase {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+.tipo-clase {
+  font-weight: 100;
+  margin-top: 4px;
+}
+
+.estado {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+.contenedor-estado {
+  display: flex;
+  align-items: center;
+  padding-right: 5px;
+}
+
+.circulo-estado {
+  width: 15px;
+  height: 15px;
+  margin-top: 4px;
+  border-radius: 50%;
+}
+
+.valor-estado {
+  font-weight: 100;
+  margin: 4px 0 0 4px;
+}
+
+.circulo-rojo {
+  background-color: #e13e5b;
+}
+
+.circulo-verde {
+  background-color: #278e06;
+}
+
+.ult-actu {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+.fecha-ult-actu {
+  font-weight: 100;
+  margin-top: 4px;
+}
